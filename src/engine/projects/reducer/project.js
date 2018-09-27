@@ -1,4 +1,4 @@
-import { normalize, schema } from 'normalizr'
+import { normalize, schema, denormalize } from 'normalizr'
 import * as constants from '@engine/projects/constants'
 
 const Page = new schema.Entity('pages')
@@ -16,6 +16,7 @@ export default (state = DEFAULT_STATE, action) => {
     case constants.FETCH_PROJECT.FULFILLED: {
       const { entities, result } = normalize(action.payload.project, Project)
       const { pages, sections, project } = entities
+      console.log(denormalize(project[result], Project, { pages, sections, project }))
       return {
         pages,
         sections,
